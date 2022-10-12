@@ -1,4 +1,4 @@
-from flask import Flask,render_template
+from flask import Flask,render_template,url_for
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ def about():
 
 @app.route('/newpage')
 def newpage():
-    return 'New page'
+    return render_template("newpage.html")
 
 
 @app.route('/user/<string:name>/<int:id>')
