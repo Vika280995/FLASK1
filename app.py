@@ -10,12 +10,21 @@ db = SQLAlchemy(app)
 
 
 class Article(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
+    __tablename__ = 'blog'
+
+    id = db.Column(db.Integer(), primary_key=True,autoincrement=True)
     title = db.Column(db.String(100), nullable=False)
     intro = db.Column(db.String(300), nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    notes = db.Column(db.String(500))
-    data = db.Column(db.DateTime, default=datetime.utcnow)
+    text = db.Column(db.Text(), nullable=False)
+    notes = db.Column(db.String(500),nullable=True)
+    data = db.Column(db.DateTime(), nullable=False)
+
+    def __init__(self,title,intro,text,notes=None,data=datetime.utvnow()):
+        self.title = title
+        self.intro = intro
+        self.text = text
+        self.notes = notes
+        self.data = data
 
     def __repr__(self):
         return '<Article %r>' % self.id
