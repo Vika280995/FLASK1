@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 
 app = Flask(__name__)
+
+
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
@@ -17,9 +19,11 @@ class Article(db.Model):
     data = db.Column(db.DateTime,default=datetime.utcnow)
 
 
-    def __repr__(self):
-        return '<Article %r>' % self.id
 
+
+def __repr__(self):
+        return '<Article %r>' % self.id
+db.create_all()
 
 @app.route('/')
 @app.route('/home')
@@ -55,7 +59,7 @@ def create_article():
         try:
             db.session.add(article)
             db.session.commit()
-            return redirect('/')
+            return redirect('/posts')
         except:
             return "При добавлении статьи произошла ошибка"
     else:
