@@ -1,10 +1,7 @@
 {% extends 'base.html' %}
-
-
 {% block title %}
 Все статьи на сайте
 {% endblock %}
-
 {% block body %}
      <div class="container">
         <h1>Все статьи на сайте</h1>
@@ -13,9 +10,9 @@
          <div class ="alert alert=info">
              <h2>{{el.title}}</h2>
              <p>{{el.intro}}</p>
-             <p><b>Дата:{{el.date.date()}}</b></p>
-             <button class="btn btn-warning">Детальнее</button>
+             <p><b>Дата:{{el.data.date()}}</b></p>
+             <a href="/posts/{{el.id}}" class="btn btn-warning">Детальнее</a>
          </div>
        {% endfor %}
         </div>
-{% endblock %}
+
