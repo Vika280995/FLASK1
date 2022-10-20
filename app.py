@@ -8,6 +8,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
+
 class Article(db.Model):
     id = db.Column(db.Integer,primary_key=True)
     title = db.Column(db.String(100),nullable=False)
@@ -21,6 +22,9 @@ class Article(db.Model):
 
 def __repr__(self):
         return '<Article %r>' % self.id
+
+db.create_all()
+
 
 @app.route('/')
 @app.route('/home')
@@ -58,16 +62,16 @@ def posts_delete(id):
 
 @app.route('/posts/<int:id>/update',methods=['POST','GET'])
 def post_update(id):
+    article = Article.query.get(id)
     if request.method=="POST":
-        title = request.form['title']
-        intro = request.form['intro']
-        text = request.form['text']
+        article.title = request.form['title']
+        article.intro = request.form['intro']
+        article.text = request.form['text']
 
 
         article = Article(title=title,intro=intro,text=text)
 
         try:
-            db.session.add(article)
             db.session.commit()
             return redirect('/posts')
         except:
@@ -103,6 +107,12 @@ def create_article():
 #def user(name,id):
  #   return 'User page'+name+"-"+ str(id)
 
+    if __name__ == '__main__':
+        import os
 
-if __name__ == '__main__':
-   app.run(debug=True)
+        HOST = os.environ.get('SERVEN_HOST', 'localhost')
+        try:
+            PORT = int(os.environ.get('SERVER_PORT', '5555'))
+        except ValueError:
+            PORT = 5555
+        app.run(HOST, PORT)
